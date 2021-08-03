@@ -2,7 +2,8 @@ import { Schema, model } from 'mongoose';
 
 //id
 
-interface Order {
+export interface Order {
+  id: string;
   healthCareDistrict: string;
   orderNumber: number;
   responsiblePerson: string;
@@ -12,6 +13,7 @@ interface Order {
 }
 
 const orderSchema = new Schema<Order>({
+  id: String,
   healthCareDistrict: String,
   orderNumber: Number,
   responsiblePerson: String,
