@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { connect } from 'mongoose';
 import ordersRouter from './controllers/orders';
-import parseFile from './utils/parseFile';
+//import parseFile from './utils/parseFile';
 import config from './utils/config';
 
 
@@ -26,14 +26,17 @@ const main = async (): Promise<void> => {
   //mongoose connect
   //if db empty parsefiles and populate
 
+  //initializeDatabase() -> npm script;
+
+
   const app = express();
 
-
+  /*
   const test = await parseFile();
 
   console.log(test[0]);
   console.log(test[test.length-1]);
-
+  */
   app.use(cors());
   app.use('/api/orders', ordersRouter);
 

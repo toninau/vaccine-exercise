@@ -1,19 +1,10 @@
 import { Schema, model } from 'mongoose';
+import { Order } from '../types';
 
 //id
 
-export interface Order {
-  id: string;
-  healthCareDistrict: string;
-  orderNumber: number;
-  responsiblePerson: string;
-  injections: number;
-  arrived: Date;
-  vaccine: string;
-}
-
 const orderSchema = new Schema<Order>({
-  id: String,
+  id: Schema.Types.ObjectId,
   healthCareDistrict: String,
   orderNumber: Number,
   responsiblePerson: String,
