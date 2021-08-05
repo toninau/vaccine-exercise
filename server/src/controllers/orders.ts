@@ -1,11 +1,12 @@
 import express from 'express';
-//import Order from '../models/order';
+import Order from '../models/order';
 
 const ordersRouter = express.Router();
 
-ordersRouter.get('/:id', (request, response) => {
+ordersRouter.get('/:id', async (request, response) => {
   const id = request.params.id;
-  response.status(200).json({id});
+  const order = await Order.findOne({id});
+  response.status(200).json(order);
 });
 
 export default ordersRouter;

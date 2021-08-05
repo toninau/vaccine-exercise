@@ -8,7 +8,8 @@
     "start": "node build/index.js",
     "ts-node": "ts-node",
     "dev": "ts-node-dev src/index.ts",
-    "lint": "eslint --ext .ts ."
+    "lint": "eslint --ext .ts .",
+    "db-init": "node build/utils/initializeDatabase.js"
   },
   "keywords": [],
   "author": "",
