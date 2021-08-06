@@ -1,5 +1,7 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 import { Vaccination } from '../types';
+
+type VaccinationDocument = Vaccination & Document;
 
 const vaccinationSchema = new Schema<Vaccination>({
   'vaccination-id': {
@@ -19,6 +21,13 @@ const vaccinationSchema = new Schema<Vaccination>({
     type: Date,
     required: true
   },
+});
+
+vaccinationSchema.set('toJSON', {
+  transform: (_document: VaccinationDocument, returnedObject: VaccinationDocument) => {
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  }
 });
 
 export default model<Vaccination>('Vaccination', vaccinationSchema);

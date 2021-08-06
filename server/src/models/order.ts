@@ -1,5 +1,7 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 import { Order } from '../types';
+
+type OrderDocument = Order & Document;
 
 const orderSchema = new Schema<Order>({
   id: {
@@ -30,6 +32,13 @@ const orderSchema = new Schema<Order>({
   vaccine: {
     type: String,
     required: true
+  }
+});
+
+orderSchema.set('toJSON', {
+  transform: (_document: OrderDocument, returnedObject: OrderDocument) => {
+    delete returnedObject._id;
+    delete returnedObject.__v;
   }
 });
 
