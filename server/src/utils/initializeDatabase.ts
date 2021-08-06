@@ -1,16 +1,18 @@
 import parseFiles from './parseFiles';
-import * as fs from 'fs/promises';
 import config from './config';
 import mongoose from 'mongoose';
 import Order from '../models/order';
 import Vaccination from '../models/vaccination';
+import {
+  Order as IOrder,
+  Vaccination as IVaccination
+} from '../types';
 
 (async () => {
-  const orderFileNames = await fs.readdir('./resources/orders');
-  const vaccinationFileNames = await fs.readdir('./resources/vaccinations');
-  const [orders, vaccinations] = await parseFiles(orderFileNames, vaccinationFileNames);
+  const orders = await parseFiles<IOrder>('./resources/orders');
+  const vaccinations = await parseFiles<IVaccination>('./resources/vaccinations');
 
-  const db = await mongoose.connect(config.DATABASE_URL,  {
+  const db = await mongoose.connect(config.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true

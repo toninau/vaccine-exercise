@@ -1,15 +1,10 @@
-import { Order, Vaccination } from '../types';
 import * as fs from 'fs/promises';
+import path from 'path';
 
-const main = async (orders: string[], vaccinations: string[]): Promise<[Order[], Vaccination[]]> => {
-  const orderArrays = await parseFiles<Order>('orders', orders);
-  const vaccinationArrays = await parseFiles<Vaccination>('vaccinations', vaccinations);
-  return [orderArrays, vaccinationArrays];
-};
-
-const parseFiles = async <T>(path: string, fileNames: string[]): Promise<T[]> => {
+const parseFiles = async <T>(directory: string): Promise<T[]> => {
+  const fileNames = await fs.readdir(directory);
   const array = await Promise.all(fileNames.map(async (name) => {
-    const fileString = await fs.readFile(`./resources/${path}/${name}`, 'utf8');
+    const fileString = await fs.readFile(path.join(directory, name), 'utf8');
     const data = parseString<T>(fileString);
     return data;
   }));
@@ -25,4 +20,4 @@ const parseString = <T>(fileString: string): T[] => {
   return arrayOfObjects;
 };
 
-export default main;
+export default parseFiles;
