@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import { connect } from 'mongoose';
-import ordersRouter from './controllers/orders';
-import vaccinationsRouter from './controllers/vaccinations';
+import ordersRouter from './routes/ordersRouter';
+import vaccinationsRouter from './routes/vaccinationsRouter';
 import config from './utils/config';
 
 const main = async (): Promise<void> => {
