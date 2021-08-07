@@ -1,9 +1,10 @@
+import config from './utils/config';
 import express from 'express';
+import 'express-async-errors';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import ordersRouter from './routes/ordersRouter';
 import vaccinationsRouter from './routes/vaccinationsRouter';
-import config from './utils/config';
 import middleware from './utils/middleware';
 
 mongoose.connect(config.DATABASE_URL, {
