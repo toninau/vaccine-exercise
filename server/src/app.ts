@@ -24,5 +24,6 @@ app.use('/api/orders', ordersRouter);
 app.use('/api/vaccinations', vaccinationsRouter);
 
 app.use(middleware.unkownEndpoint);
+app.use(middleware.errorHandler);
 
 export default app;
