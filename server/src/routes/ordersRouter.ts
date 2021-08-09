@@ -21,41 +21,63 @@ ordersRouter.get('/', async (request, response) => {
     throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
   }
 
-  const start = DateTime.utc(...date);
-  const end = start.endOf('day');
+  const startDate = DateTime.utc(...date);
+  const endDate = startDate.endOf('day');
+  const expDate = startDate.plus({ days: -30 });
 
-  const orders = await Order.find({ arrived: {
-    $gte: new Date(start.toISO()),
-    $lte: new Date(end.toISO()),
-  }}).sort({ arrived: 1 });
-  //sort to be removed
+  //expired bottles on given day
+  const ordersExp = await Order.find({
+    arrived: {
+      $lt: new Date(expDate.toISO())
+    }
+  });
+
+  const ordersExpTotal = ordersExp.reduce((accumulator, current) => {
+    return accumulator + current.injections;
+  }, 0);
+
+  //how many vaccines are going to expire in the next 10 days
 
 
-  console.log(orders[0], orders[orders.length-1]);
-  console.log(orders.length);
+  //how many orders and vaccines
+  const orders = await Order.find({
+    arrived: {
+      $gte: new Date(startDate.toISO()),
+      $lte: new Date(endDate.toISO()),
+    }
+  });
 
   const oTotal = orders.length;
   const vTotal = orders.reduce((accumulator, current) => {
     return accumulator + current.injections;
   }, 0);
-  //orders/vaccines per producer
-  //expired orders start - 30 days -> Order.find({...}).count()
-  /*
-  {
-    total
-    producer: [
-      {
-        name:
-        order:
-        vaccines:
-      }
-    ]
-  }
-  */
 
-  //object
+  //How many orders/vaccines per producer?
+  const producers = [...new Set(orders.map(order => order.vaccine))];
 
-  response.status(200).json({ orders: oTotal, vaccines: vTotal });
+  const perProducer = producers.map((producer) => {
+    const filtered = orders.filter(o => o.vaccine === producer);
+    const test = filtered.reduce((a, b) => {
+      return a + b.injections;
+    }, 0);
+    return {
+      name: producer,
+      orders: filtered.length,
+      vaccines: test,
+    };
+  });
+
+  const obj = {
+    orders: oTotal,
+    vaccines: vTotal,
+    producers: perProducer,
+    expired: {
+      orders: ordersExp.length,
+      vaccines: ordersExpTotal
+    }
+  };
+
+  response.status(200).json(obj);
 });
 
 export default ordersRouter;
