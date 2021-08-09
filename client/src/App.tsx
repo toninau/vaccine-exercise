@@ -1,8 +1,12 @@
 import React from 'react';
+import Orders from './components/Orders';
 
-const App: React.FC = () => {
+const App = () => {
   return (
-    <div>init</div>
+    <div>
+      <p>init</p>
+      <Orders test={'string'} />
+    </div>
   );
 };
 
