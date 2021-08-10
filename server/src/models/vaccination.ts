@@ -6,7 +6,6 @@ type VaccinationDocument = Vaccination & Document;
 const vaccinationSchema = new Schema<Vaccination>({
   'vaccination-id': {
     type: String,
-    unique: true,
     required: true
   },
   gender: {
@@ -15,7 +14,8 @@ const vaccinationSchema = new Schema<Vaccination>({
   },
   sourceBottle: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   vaccinationDate: {
     type: Date,

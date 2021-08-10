@@ -3,8 +3,57 @@ import Order from '../models/order';
 import parseQueryDate from '../utils/parseQueryDate';
 import boom from '@hapi/boom';
 import { DateTime } from 'luxon';
+import ordersService from '../services/ordersService';
 
 const ordersRouter = express.Router();
+
+//How many bottles have expired on the given day (remember a bottle expires 30 days after arrival)
+//How many vaccines expired before the usage -> remember to decrease used injections from the expired bottle
+ordersRouter.get('/expired', async (request, response) => {
+  const date = parseQueryDate(request.query.date);
+  if (!date) {
+    throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
+  }
+
+  //const startDate = DateTime.utc(...date);
+  //const endDate = startDate.endOf('day');
+  const expDateSpe = DateTime.utc(2021, 4, 12, 11, 10, 6);
+  const expDate = expDateSpe.plus({ days: -30 });
+
+  const expiredOrderData = await ordersService.expired(new Date(expDate.toISO()));
+  response.status(200).json(expiredOrderData);
+});
+
+//How many orders and vaccines have arrived total?
+ordersRouter.get('/total', async (request, response) => {
+  const date = parseQueryDate(request.query.date);
+  if (!date) {
+    throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
+  }
+
+  const givenDate = DateTime.utc(...date).endOf('day');
+
+  const test = await ordersService.total(new Date(givenDate.toISO()));
+
+  console.log(test[0]);
+  response.status(200).json(test);
+});
+
+//How many orders/vaccines per producer?
+ordersRouter.get('/producer', async (request, response) => {
+  const date = parseQueryDate(request.query.date);
+  if (!date) {
+    throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
+  }
+
+  const startDate = DateTime.utc(...date);
+  const endDate = startDate.endOf('day');
+
+  const aggregate = await ordersService
+    .perProducer(new Date(startDate.toISO()), new Date(endDate.toISO()));
+
+  response.status(200).json(aggregate);
+});
 
 ordersRouter.get('/:id', async (request, response) => {
   const id = request.params.id;
@@ -13,71 +62,6 @@ ordersRouter.get('/:id', async (request, response) => {
     return response.status(200).json(order.toJSON());
   }
   throw boom.notFound(`Order by the id of ${id} not found`);
-});
-
-ordersRouter.get('/', async (request, response) => {
-  const date = parseQueryDate(request.query.date);
-  if (!date) {
-    throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
-  }
-
-  const startDate = DateTime.utc(...date);
-  const endDate = startDate.endOf('day');
-  const expDate = startDate.plus({ days: -30 });
-
-  //expired bottles on given day
-  const ordersExp = await Order.find({
-    arrived: {
-      $lt: new Date(expDate.toISO())
-    }
-  });
-
-  const ordersExpTotal = ordersExp.reduce((accumulator, current) => {
-    return accumulator + current.injections;
-  }, 0);
-
-  //how many vaccines are going to expire in the next 10 days
-
-
-  //how many orders and vaccines
-  const orders = await Order.find({
-    arrived: {
-      $gte: new Date(startDate.toISO()),
-      $lte: new Date(endDate.toISO()),
-    }
-  });
-
-  const oTotal = orders.length;
-  const vTotal = orders.reduce((accumulator, current) => {
-    return accumulator + current.injections;
-  }, 0);
-
-  //How many orders/vaccines per producer?
-  const producers = [...new Set(orders.map(order => order.vaccine))];
-
-  const perProducer = producers.map((producer) => {
-    const filtered = orders.filter(o => o.vaccine === producer);
-    const test = filtered.reduce((a, b) => {
-      return a + b.injections;
-    }, 0);
-    return {
-      name: producer,
-      orders: filtered.length,
-      vaccines: test,
-    };
-  });
-
-  const obj = {
-    orders: oTotal,
-    vaccines: vTotal,
-    producers: perProducer,
-    expired: {
-      orders: ordersExp.length,
-      vaccines: ordersExpTotal
-    }
-  };
-
-  response.status(200).json(obj);
 });
 
 export default ordersRouter;
