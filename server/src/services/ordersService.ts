@@ -14,46 +14,65 @@ type Return2 = {
   injectionsInBottles: number
 };
 
+const expiredFields = [
+  {
+    $lookup: {
+      from: 'vaccinations',
+      localField: 'id',
+      foreignField: 'sourceBottle',
+      as: 'vaccinations'
+    }
+  },
+  {
+    $group: {
+      _id: '$vaccine',
+      expiredBottles: { $sum: 1 },
+      injectionsInBottles: { $sum: '$injections' },
+      usedInjections: {
+        $sum: { $size: '$vaccinations' },
+      },
+    },
+  },
+  {
+    $addFields: {
+      expiredInjections: {
+        $subtract: ['$injectionsInBottles', '$usedInjections'],
+      },
+    },
+  },
+  {
+    $project: {
+      _id: 0,
+      vaccine: '$_id',
+      expiredBottles: 1,
+      injectionsInBottles: 1,
+      usedInjections: 1,
+      expiredInjections: 1
+    }
+  },
+  {
+    $sort: {
+      vaccine: 1
+    }
+  }
+];
+
 const expired = async (date: Date) => {
   const aggregate = await Order.aggregate([
     {
       $match: { arrived: { $lt: date } }
     },
+    ...expiredFields
+  ]);
+  return aggregate as Return[];
+};
+
+const expired10 = async (startDate: Date, endDate: Date) => {
+  const aggregate = await Order.aggregate([
     {
-      $lookup: {
-        from: 'vaccinations',
-        localField: 'id',
-        foreignField: 'sourceBottle',
-        as: 'vaccinations'
-      }
+      $match: { arrived: { $gte: startDate, $lte: endDate, } }
     },
-    {
-      $group: {
-        _id: '$vaccine',
-        expiredBottles: { $sum: 1 },
-        injectionsInBottles: { $sum: '$injections' },
-        usedInjections: {
-          $sum: { $size: '$vaccinations' },
-        },
-      },
-    },
-    {
-      $addFields: {
-        expiredInjections: {
-          $subtract: ['$injectionsInBottles', '$usedInjections'],
-        },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        vaccine: '$_id',
-        expiredBottles: 1,
-        injectionsInBottles: 1,
-        usedInjections: 1,
-        expiredInjections: 1
-      }
-    }
+    ...expiredFields
   ]);
   return aggregate as Return[];
 };
@@ -76,6 +95,11 @@ const perProducer = async (startDate: Date, endDate: Date) => {
         vaccine: '$_id',
         bottles: 1,
         injectionsInBottles: 1
+      }
+    },
+    {
+      $sort: {
+        vaccine: 1
       }
     }
   ]);
@@ -107,6 +131,7 @@ const total = async (date: Date) => {
 
 export default {
   expired,
+  expired10,
   perProducer,
   total
 };

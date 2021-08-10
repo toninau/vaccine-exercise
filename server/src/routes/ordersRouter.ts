@@ -24,6 +24,22 @@ ordersRouter.get('/expired', async (request, response) => {
   response.status(200).json(expiredOrderData);
 });
 
+//How many vaccines are going to expire in the next 10 days?
+ordersRouter.get('/expired10', async (request, response) => {
+  const date = parseQueryDate(request.query.date);
+  if (!date) {
+    throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
+  }
+
+  const startDate = DateTime.utc(...date).plus({ days: -30 });
+  const endDate = startDate.plus({ days: 10 });
+
+  const expired10 = await ordersService.expired10(new Date(startDate.toISO()), new Date(endDate.toISO()));
+
+  response.status(200).json(expired10);
+
+});
+
 //How many orders and vaccines have arrived total?
 ordersRouter.get('/total', async (request, response) => {
   const date = parseQueryDate(request.query.date);
