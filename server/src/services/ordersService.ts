@@ -13,7 +13,7 @@ type OrderTotal = {
   injectionsInBottles: number
 };
 
-const expiredFields = [
+const expiredFieldsFragment = [
   {
     $lookup: {
       from: 'vaccinations',
@@ -61,7 +61,7 @@ const expired = async (date: Date) => {
     {
       $match: { arrived: { $lt: date } }
     },
-    ...expiredFields
+    ...expiredFieldsFragment
   ]);
   return expiredOrders as ExpiredOrder[];
 };
@@ -71,7 +71,7 @@ const expiring10d = async (startDate: Date, endDate: Date) => {
     {
       $match: { arrived: { $gte: startDate, $lte: endDate, } }
     },
-    ...expiredFields
+    ...expiredFieldsFragment
   ]);
   return expiringOrders10d as ExpiredOrder[];
 };
