@@ -10,12 +10,8 @@ const vaccinationRouter = express.Router();
 //how many vaccinations have been used?
 vaccinationRouter.get('/', async (request, response) => {
   const date = parseQueryDate(request.query.date);
-  if (!date) {
-    throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
-  }
-
-  const startDate = DateTime.utc(...date);
-  const endDate = startDate.endOf('day');
+  const endDate = DateTime.utc(...date);
+  const startDate = endDate.startOf('day');
 
   const usedCount = await vaccinationsService
     .usedVaccinationCount(new Date(startDate.toISO()), new Date(endDate.toISO()));

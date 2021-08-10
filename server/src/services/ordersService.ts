@@ -1,6 +1,6 @@
 import Order from '../models/order';
 
-type Return = {
+type ExpiredOrder = {
   vaccine: string,
   expiredBottles: number,
   injectionsInBottles: number,
@@ -8,8 +8,7 @@ type Return = {
   expiredInjections: number,
 };
 
-type Return2 = {
-  vaccine: string,
+type OrderTotal = {
   bottles: number,
   injectionsInBottles: number
 };
@@ -58,23 +57,23 @@ const expiredFields = [
 ];
 
 const expired = async (date: Date) => {
-  const aggregate = await Order.aggregate([
+  const expiredOrders = await Order.aggregate([
     {
       $match: { arrived: { $lt: date } }
     },
     ...expiredFields
   ]);
-  return aggregate as Return[];
+  return expiredOrders as ExpiredOrder[];
 };
 
-const expired10 = async (startDate: Date, endDate: Date) => {
-  const aggregate = await Order.aggregate([
+const expiring10d = async (startDate: Date, endDate: Date) => {
+  const expiringOrders10d = await Order.aggregate([
     {
       $match: { arrived: { $gte: startDate, $lte: endDate, } }
     },
     ...expiredFields
   ]);
-  return aggregate as Return[];
+  return expiringOrders10d as ExpiredOrder[];
 };
 
 const perProducer = async (startDate: Date, endDate: Date) => {
@@ -103,7 +102,7 @@ const perProducer = async (startDate: Date, endDate: Date) => {
       }
     }
   ]);
-  return aggregate as Return2[];
+  return aggregate as OrderTotal & {vaccine: string}[];
 };
 
 const total = async (date: Date) => {
@@ -126,12 +125,12 @@ const total = async (date: Date) => {
       }
     }
   ]);
-  return aggregate as { bottles: number, injectionsInBottles: number }[];
+  return aggregate[0] as OrderTotal;
 };
 
 export default {
   expired,
-  expired10,
+  expiring10d,
   perProducer,
   total
 };

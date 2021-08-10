@@ -11,63 +11,40 @@ const ordersRouter = express.Router();
 //How many vaccines expired before the usage -> remember to decrease used injections from the expired bottle
 ordersRouter.get('/expired', async (request, response) => {
   const date = parseQueryDate(request.query.date);
-  if (!date) {
-    throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
-  }
-
-  //const startDate = DateTime.utc(...date);
-  //const endDate = startDate.endOf('day');
-  const expDateSpe = DateTime.utc(2021, 4, 12, 11, 10, 6);
-  const expDate = expDateSpe.plus({ days: -30 });
+  const expDate = DateTime.utc(...date).plus({ days: -30 });
 
   const expiredOrderData = await ordersService.expired(new Date(expDate.toISO()));
   response.status(200).json(expiredOrderData);
 });
 
 //How many vaccines are going to expire in the next 10 days?
-ordersRouter.get('/expired10', async (request, response) => {
+ordersRouter.get('/expiring10d', async (request, response) => {
   const date = parseQueryDate(request.query.date);
-  if (!date) {
-    throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
-  }
-
   const startDate = DateTime.utc(...date).plus({ days: -30 });
   const endDate = startDate.plus({ days: 10 });
 
-  const expired10 = await ordersService.expired10(new Date(startDate.toISO()), new Date(endDate.toISO()));
-
-  response.status(200).json(expired10);
-
+  const ordersExpiringIn10d = await ordersService
+    .expiring10d(new Date(startDate.toISO()), new Date(endDate.toISO()));
+  response.status(200).json(ordersExpiringIn10d);
 });
 
 //How many orders and vaccines have arrived total?
 ordersRouter.get('/total', async (request, response) => {
   const date = parseQueryDate(request.query.date);
-  if (!date) {
-    throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
-  }
+  const endDate = DateTime.utc(...date);
 
-  const givenDate = DateTime.utc(...date).endOf('day');
-
-  const test = await ordersService.total(new Date(givenDate.toISO()));
-
-  console.log(test[0]);
-  response.status(200).json(test);
+  const orderTotal = await ordersService.total(new Date(endDate.toISO()));
+  response.status(200).json(orderTotal);
 });
 
 //How many orders/vaccines per producer?
 ordersRouter.get('/producer', async (request, response) => {
   const date = parseQueryDate(request.query.date);
-  if (!date) {
-    throw boom.badRequest('date missing or invalid (yyyy-MM-dd)');
-  }
-
-  const startDate = DateTime.utc(...date);
-  const endDate = startDate.endOf('day');
+  const endDate = DateTime.utc(...date);
+  const startDate = endDate.startOf('day');
 
   const aggregate = await ordersService
     .perProducer(new Date(startDate.toISO()), new Date(endDate.toISO()));
-
   response.status(200).json(aggregate);
 });
 

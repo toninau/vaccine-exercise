@@ -1,34 +1,33 @@
 import parseQueryDate from '../utils/parseQueryDate';
 
 describe('parses date string from query', () => {
-  test('when input is correct', () => {
+  test('when input contains only date', () => {
     const values1 = parseQueryDate('2012-02-20');
-    expect(values1).toEqual([2012, 2, 20]);
-    const values2 = parseQueryDate('2021-12-01');
-    expect(values2).toEqual([2021, 12, 1]);
+    expect(values1).toEqual([2012, 2, 20, 0, 0, 0]);
   });
-  test('when value is empty', () => {
-    const values = parseQueryDate('');
-    expect(values).toBeNull();
+  test('when input contains date and time', () => {
+    const values2 = parseQueryDate('2021-12-01T11:10:06');
+    expect(values2).toEqual([2021, 12, 1, 11, 10, 6]);
   });
-  test('when field is missing', () => {
-    const values = parseQueryDate(undefined);
-    expect(values).toBeNull();
+});
+
+describe('throws date missing error when parsing', () => {
+  test('empty field', () => {
+    expect(() => parseQueryDate('')).toThrow('date missing');
   });
-  test('when value is not a date', () => {
-    const values = parseQueryDate('string');
-    expect(values).toBeNull();
+  test('missing field', () => {
+    expect(() => parseQueryDate(undefined)).toThrow('date missing');
   });
-  test('when value is not in correct format (no padding)', () => {
-    const values = parseQueryDate('2012-2-2');
-    expect(values).toBeNull();
+});
+
+describe('throws date invalid error when parsing', () => {
+  test('a value that is not a date', () => {
+    expect(() => parseQueryDate('string')).toThrow('date invalid');
   });
-  test('when value is not in correct format (yyyy-MM-dd)', () => {
-    const values = parseQueryDate('2012-29-02');
-    expect(values).toBeNull();
+  test('a value that is not in the correct format (ISO 8601)', () => {
+    expect(() => parseQueryDate('2012-2-2')).toThrow('date invalid');
   });
-  test('when value contains non-existent date', () => {
-    const values = parseQueryDate('2021-02-30');
-    expect(values).toBeNull();
+  test('a value that contains non-existent date', () => {
+    expect(() => parseQueryDate('2021-02-30')).toThrow('date invalid');
   });
 });
