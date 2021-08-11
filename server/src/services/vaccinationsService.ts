@@ -28,9 +28,7 @@ const usableInjectionsCount = async (startDate: Date, endDate: Date) => {
       $group: {
         _id: null,
         injectionsInBottles: { $sum: '$injections' },
-        usedInjections: {
-          $sum: { $size: '$vaccinations' },
-        },
+        usedInjections: { $sum: { $size: '$vaccinations' } },
       },
     },
     {
@@ -49,8 +47,8 @@ const usableInjectionsCount = async (startDate: Date, endDate: Date) => {
       }
     }
   ]);
-  const { usableInjections } = usableInjectionsData[0] as { usableInjections: number };
-  return usableInjections;
+  const data = usableInjectionsData[0] as { usableInjections: number };
+  return data ? data.usableInjections : 0;
 };
 
 export default {
