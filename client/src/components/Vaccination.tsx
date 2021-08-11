@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import useAxios from '../utils/useAxios';
 
 type Vaccination = {
   used: number;
@@ -7,17 +7,7 @@ type Vaccination = {
 };
 
 const Total = ({ date }: {date: string}) => {
-  const [data, setData] = useState<Vaccination | null>(null);
-
-  useEffect(() => {
-    setData(null);
-    const fun = async () => {
-      const test = await axios.get<Vaccination>(`/api/vaccinations/?date=${date}`);
-      setData(test.data);
-    };
-    void fun();
-  }, [date]);
-
+  const data = useAxios<Vaccination>(`/api/vaccinations/?date=${date}`);
 
   if (!data) return <p>loading</p>;
   return (
