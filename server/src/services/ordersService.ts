@@ -27,16 +27,12 @@ const expiredFieldsFragment = [
       _id: '$vaccine',
       expiredBottles: { $sum: 1 },
       injectionsInBottles: { $sum: '$injections' },
-      usedInjections: {
-        $sum: { $size: '$vaccinations' },
-      },
+      usedInjections: { $sum: { $size: '$vaccinations' } },
     },
   },
   {
     $addFields: {
-      expiredInjections: {
-        $subtract: ['$injectionsInBottles', '$usedInjections'],
-      },
+      expiredInjections: { $subtract: ['$injectionsInBottles', '$usedInjections'] },
     },
   },
   {
@@ -77,7 +73,7 @@ const expiring10d = async (startDate: Date, endDate: Date) => {
 };
 
 const perProducer = async (startDate: Date, endDate: Date) => {
-  const aggregate = await Order.aggregate([
+  const ordersPerProducer = await Order.aggregate([
     {
       $match: { arrived: { $gte: startDate, $lte: endDate, } }
     },
@@ -102,11 +98,11 @@ const perProducer = async (startDate: Date, endDate: Date) => {
       }
     }
   ]);
-  return aggregate as OrderTotal & {vaccine: string}[];
+  return ordersPerProducer as OrderTotal & { vaccine: string }[];
 };
 
 const total = async (date: Date) => {
-  const aggregate = await Order.aggregate([
+  const OrdersTotal = await Order.aggregate([
     {
       $match: { arrived: { $lte: date, } }
     },
@@ -125,7 +121,7 @@ const total = async (date: Date) => {
       }
     }
   ]);
-  return aggregate[0] as OrderTotal;
+  return OrdersTotal[0] as OrderTotal;
 };
 
 export default {
