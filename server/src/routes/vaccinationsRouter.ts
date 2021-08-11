@@ -8,15 +8,20 @@ import vaccinationsService from '../services/vaccinationsService';
 const vaccinationRouter = express.Router();
 
 //how many vaccinations have been used?
+//How many vaccines are left to use?
 vaccinationRouter.get('/', async (request, response) => {
   const date = parseQueryDate(request.query.date);
   const endDate = DateTime.utc(...date);
   const startDate = endDate.startOf('day');
+  const expDate = endDate.plus({ days: -30 });
 
   const usedCount = await vaccinationsService
-    .usedVaccinationCount(new Date(startDate.toISO()), new Date(endDate.toISO()));
+    .usedInjectionsCount(new Date(startDate.toISO()), new Date(endDate.toISO()));
 
-  response.status(200).json({ used: usedCount });
+  const usableCount = await vaccinationsService
+    .usableInjectionsCount(new Date(expDate.toISO()), new Date(endDate.toISO()));
+
+  response.status(200).json({ used: usedCount, usable: usableCount });
 });
 
 vaccinationRouter.get('/:id', async (request, response) => {
