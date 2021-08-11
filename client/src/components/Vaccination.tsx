@@ -1,19 +1,22 @@
 import React from 'react';
 import useFetch from '../utils/useFetch';
 
-type Vaccination = {
+type VaccinationData = {
   used: number;
   usable: number;
 };
 
-const Total = ({ date }: { date: string }) => {
-  const { data, error } = useFetch<Vaccination>(`/api/vaccinations/?date=${date}`);
+const Vaccination = ({ date }: { date: string }) => {
+  const { data, error } = useFetch<VaccinationData>(`/api/vaccinations/?date=${date}`);
 
   if (error) return <p>eroror</p>;
   if (!data) return <p>loading</p>;
   return (
-    <div>{JSON.stringify(data)}</div>
+    <div style={{ border: '1px solid black', margin: '1em' }}>
+      <p>{data.used}</p>
+      <p>{data.usable}</p>
+    </div>
   );
 };
 
-export default Total;
+export default Vaccination;

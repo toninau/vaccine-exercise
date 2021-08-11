@@ -1,13 +1,13 @@
 import React from 'react';
 import useFetch from '../utils/useFetch';
 
-type OrderTotal = {
+type TotalData = {
   bottles: number;
   injectionsInBottles: number;
 };
 
 const Total = ({ date }: { date: string }) => {
-  const { data, error } = useFetch<OrderTotal>(`/api/orders/total?date=${date}`);
+  const { data, error } = useFetch<TotalData>(`/api/orders/total?date=${date}`);
 
   if (error) return <p>eroror</p>;
   if (!data) return <p>loading</p>;
