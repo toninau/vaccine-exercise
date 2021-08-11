@@ -1,5 +1,5 @@
 import React from 'react';
-import useAxios from '../utils/useAxios';
+import useFetch from '../utils/useFetch';
 
 type OrderTotal = {
   bottles: number;
@@ -7,8 +7,9 @@ type OrderTotal = {
 };
 
 const Total = ({ date }: { date: string }) => {
-  const data = useAxios<OrderTotal>(`/api/orders/total?date=${date}`);
+  const { data, error } = useFetch<OrderTotal>(`/api/orders/total?date=${date}`);
 
+  if (error) return <p>eroror</p>;
   if (!data) return <p>loading</p>;
   return (
     <div style={{ border: '1px solid black', margin: '1em' }}>
