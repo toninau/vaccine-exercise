@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-import Orders from './components/Orders';
 import DatePicker from './components/DatePicker';
+import Total from './components/Total';
+import Vaccination from './components/Vaccination';
 
 const App = () => {
   const [currentDate, setCurrentDate] = useState('2021-04-12T11:10:06');
@@ -10,7 +11,8 @@ const App = () => {
     <div>
       <p>{currentDate}</p>
       <DatePicker currentDate={currentDate} setCurrentDate={setCurrentDate} />
-      <Orders test={'string'} />
+      <Total date={currentDate} />
+      <Vaccination date={currentDate} />
     </div>
   );
 };
