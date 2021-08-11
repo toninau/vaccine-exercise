@@ -102,7 +102,7 @@ const perProducer = async (startDate: Date, endDate: Date) => {
 };
 
 const total = async (date: Date) => {
-  const OrdersTotal = await Order.aggregate([
+  const orderTotal = await Order.aggregate([
     {
       $match: { arrived: { $lte: date, } }
     },
@@ -121,7 +121,13 @@ const total = async (date: Date) => {
       }
     }
   ]);
-  return OrdersTotal[0] as OrderTotal;
+  if (orderTotal[0]) {
+    return orderTotal[0] as OrderTotal;
+  }
+  return {
+    bottles: 0,
+    injectionsInBottles: 0
+  };
 };
 
 export default {
