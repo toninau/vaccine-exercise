@@ -1,6 +1,8 @@
 import * as fs from 'fs/promises';
 import path from 'path';
 
+//reads all files from a given directory
+//returns array of objects (objects parsed from files)
 const parseFiles = async <T>(directory: string): Promise<T[]> => {
   const fileNames = await fs.readdir(directory);
   const array = await Promise.all(fileNames.map(async (name) => {

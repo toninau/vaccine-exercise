@@ -1,16 +1,16 @@
 import Order from '../models/order';
 
 type ExpiredOrder = {
-  vaccine: string,
-  expiredBottles: number,
-  injectionsInBottles: number,
-  usedInjections: number,
-  expiredInjections: number,
+  vaccine: string;
+  expiredBottles: number;
+  injectionsInBottles: number;
+  usedInjections: number;
+  expiredInjections: number;
 };
 
 type OrderTotal = {
-  bottles: number,
-  injectionsInBottles: number
+  bottles: number;
+  injectionsInBottles: number;
 };
 
 const expiredFieldsFragment = [
