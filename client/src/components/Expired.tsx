@@ -31,7 +31,7 @@ const Expired = ({ date, url, headerRows, infoText }: ExpiredProps) => {
   if (error) return <ErrorBox text={'Could not fetch expiration data'} />;
   if (!data) return <SkeletonLoader height={300} />;
   return (
-    <Box component={Paper}>
+    <Box component={Paper} p={2}>
       <Toolbar>
         <Typography variant="h5" color="primary">
           {infoText}

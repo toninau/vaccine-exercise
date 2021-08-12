@@ -29,7 +29,7 @@ const Producer = ({ date }: { date: string }) => {
   if (error) return <ErrorBox text={'Could not fetch orders and vaccines per producer'} />;
   if (!data) return <SkeletonLoader height={300} />;
   return (
-    <Box component={Paper}>
+    <Box component={Paper} p={2}>
       <Toolbar>
         <Typography variant="h5" color="primary">
           Orders and vaccines arrived per producer
