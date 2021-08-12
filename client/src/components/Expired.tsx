@@ -14,7 +14,8 @@ import {
   TableCell,
   TableBody,
   Typography,
-  Toolbar
+  Toolbar,
+  TableContainer
 } from '@material-ui/core';
 
 interface ExpiredProps {
@@ -37,35 +38,37 @@ const Expired = ({ date, url, headerRows, infoText }: ExpiredProps) => {
         </Typography>
       </Toolbar>
       {data.length ?
-        <Table>
-          <TableHead>
-            <TableRow>
-              {headerRows.map((value) => (
-                <TableCell key={value}>{value}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((value) => (
-              <TableRow key={value.vaccine}>
-                <TableCell>{value.vaccine}</TableCell>
-                <TableCell>{value.expiredBottles}</TableCell>
-                <TableCell>{value.expiredInjections}</TableCell>
-                <TableCell>{value.usedInjections}</TableCell>
-                <TableCell>{value.injectionsInBottles}</TableCell>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {headerRows.map((value) => (
+                  <TableCell key={value}>{value}</TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-          <TableHead>
-            <TableRow>
-              <TableCell>Total</TableCell>
-              <TableCell>{data.reduce((a, b) => a + b.expiredBottles, 0)}</TableCell>
-              <TableCell>{data.reduce((a, b) => a + b.expiredInjections, 0)}</TableCell>
-              <TableCell>{data.reduce((a, b) => a + b.usedInjections, 0)}</TableCell>
-              <TableCell>{data.reduce((a, b) => a + b.injectionsInBottles, 0)}</TableCell>
-            </TableRow>
-          </TableHead>
-        </Table> :
+            </TableHead>
+            <TableBody>
+              {data.map((value) => (
+                <TableRow key={value.vaccine}>
+                  <TableCell>{value.vaccine}</TableCell>
+                  <TableCell>{value.expiredBottles}</TableCell>
+                  <TableCell>{value.expiredInjections}</TableCell>
+                  <TableCell>{value.usedInjections}</TableCell>
+                  <TableCell>{value.injectionsInBottles}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableHead>
+              <TableRow>
+                <TableCell>Total</TableCell>
+                <TableCell>{data.reduce((a, b) => a + b.expiredBottles, 0)}</TableCell>
+                <TableCell>{data.reduce((a, b) => a + b.expiredInjections, 0)}</TableCell>
+                <TableCell>{data.reduce((a, b) => a + b.usedInjections, 0)}</TableCell>
+                <TableCell>{data.reduce((a, b) => a + b.injectionsInBottles, 0)}</TableCell>
+              </TableRow>
+            </TableHead>
+          </Table>
+        </TableContainer> :
         <Typography variant="h6" align="center">
           Nothing to show
         </Typography>

@@ -15,7 +15,7 @@ const App = () => {
     <>
       <CssBaseline />
       <Container maxWidth="md" disableGutters>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{ width: '100%', margin: 0 }}>
           <Grid item xs={12}>
             <DatePicker currentDate={currentDate} setCurrentDate={setCurrentDate} />
           </Grid>

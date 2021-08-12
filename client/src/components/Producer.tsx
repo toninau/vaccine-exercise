@@ -13,7 +13,8 @@ import {
   TableCell,
   TableBody,
   Typography,
-  Toolbar
+  Toolbar,
+  TableContainer
 } from '@material-ui/core';
 
 type ProducerData = {
@@ -35,31 +36,33 @@ const Producer = ({ date }: { date: string }) => {
         </Typography>
       </Toolbar>
       {data.length ?
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Producers</TableCell>
-              <TableCell>Orders</TableCell>
-              <TableCell>Vaccines</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((value) => (
-              <TableRow key={value.vaccine}>
-                <TableCell>{value.vaccine}</TableCell>
-                <TableCell>{value.bottles}</TableCell>
-                <TableCell>{value.injectionsInBottles}</TableCell>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Producers</TableCell>
+                <TableCell>Orders</TableCell>
+                <TableCell>Vaccines</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-          <TableHead>
-            <TableRow>
-              <TableCell>Total</TableCell>
-              <TableCell>{data.reduce((a, b) => a + b.bottles, 0)}</TableCell>
-              <TableCell>{data.reduce((a, b) => a + b.injectionsInBottles, 0)}</TableCell>
-            </TableRow>
-          </TableHead>
-        </Table> :
+            </TableHead>
+            <TableBody>
+              {data.map((value) => (
+                <TableRow key={value.vaccine}>
+                  <TableCell>{value.vaccine}</TableCell>
+                  <TableCell>{value.bottles}</TableCell>
+                  <TableCell>{value.injectionsInBottles}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableHead>
+              <TableRow>
+                <TableCell>Total</TableCell>
+                <TableCell>{data.reduce((a, b) => a + b.bottles, 0)}</TableCell>
+                <TableCell>{data.reduce((a, b) => a + b.injectionsInBottles, 0)}</TableCell>
+              </TableRow>
+            </TableHead>
+          </Table>
+        </TableContainer> :
         <Typography variant="h6" align="center">
           Nothing to show
         </Typography>
