@@ -29,7 +29,7 @@ const fetchReducer = <T>(state: State<T>, action: Action<T>): State<T> => {
   }
 };
 
-const useFetch = <T>(url: string): State<T> => {
+const useFetch = <T = unknown>(url: string): State<T> => {
   const [state, dispatch] = useReducer<Reducer<State<T>, Action<T>>>(fetchReducer, initialState);
 
   useEffect(() => {

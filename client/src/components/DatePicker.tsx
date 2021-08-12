@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Box, Paper, TextField } from '@material-ui/core';
 
 interface DatePickerProps {
   currentDate: string;
@@ -15,11 +16,16 @@ const DatePicker = ({ currentDate, setCurrentDate }: DatePickerProps) => {
   };
 
   return (
-    <input value={dateInput}
-      type="datetime-local"
-      onChange={({ target }) => dateChanger(target.value)}
-      onBlur={() => setCurrentDate(dateInput)}
-    />
+    <Box component={Paper} display="flex" justifyContent="center" p={2}>
+      <TextField
+        id="date"
+        label="Select a date"
+        type="datetime-local"
+        value={dateInput}
+        onChange={({ target }) => dateChanger(target.value)}
+        onBlur={() => setCurrentDate(dateInput)}
+      />
+    </Box>
   );
 };
 
