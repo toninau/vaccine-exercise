@@ -9,8 +9,6 @@
   "scripts": {
     "install:both": "cd server && npm install --dev && cd ../client && npm install && cd ../",
     "build:both": "cd server && npm run tsc && cd ../client && npm run build && cd ../",
-    "test": "cd server && npm test",
-    "start": "node server/build/index.js",
     "heroku-postbuild": "npm run install:both && npm run build:both"
   },
   "repository": {
