@@ -7,7 +7,7 @@
     "node": "14.x"
   },
   "scripts": {
-    "install:both": "cd server && npm install && cd ../client && npm install && cd ../",
+    "install:both": "cd server && npm install --dev && cd ../client && npm install && cd ../",
     "build:both": "cd server && npm run tsc && cd ../client && npm run build && cd ../",
     "test": "cd server && npm test",
     "start": "node server/build/index.js",
