@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "THL has ordered us to create a vaccination database which contains information about vaccine orders and vaccinations.",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "install:both": "cd server && npm install && cd ../client && npm install && cd ../",
     "build:both": "cd server && npm run tsc && cd ../client && npm run build && cd ../",
