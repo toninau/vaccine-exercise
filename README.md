@@ -43,7 +43,7 @@ I used MongoDB Atlas but if you have MongoDB installed locally you can also you 
 
 Two databases have to be created:
 1. vaccines (for main application)
-2. vaccines-test (for running api tests)
+2. vaccines-test (for running the API tests)
 
 ### .ENV
 
@@ -113,9 +113,9 @@ And of course for the api tests to work, you have to add TEST_DATABASE_URL varia
 
 ### Before running
 
-Before running the application you have initialize the database with order and vaccination data.
+Before running the application, you have to initialize the database with order and vaccination data.
 
-To initialize the database you can use:
+To initialize the database, you can use:
 1. [mongoimport](https://docs.mongodb.com/database-tools/mongoimport/)
 2. [mongodb compass](https://docs.mongodb.com/compass/current/import-export/)
 3. db-init script
@@ -127,7 +127,7 @@ Running db-init script:
 ~/<YOUR_PATH>/vaccine-exercise/server $ npm run db-init
 ```
 
-This script initializes the database with data only if it's empty. To reinitialize the database you have to manually delete all the collections in the database(orders and vaccinations).
+This script initializes the database with data only if it's empty. To reinitialize the database you have to manually delete all the collections in the database (orders and vaccinations).
 
 ### Run
 
@@ -154,7 +154,7 @@ Running in development version of the client:
 
 ## API
 
-Date has to be ISO 8601 format.
+Date must be ISO 8601 format.
 - 2016-05-25
 - 2016-05-25T09:24:15
 
