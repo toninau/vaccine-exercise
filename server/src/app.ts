@@ -24,7 +24,10 @@ app.use(cors());
 
 app.use('/api/orders', ordersRouter);
 app.use('/api/vaccinations', vaccinationsRouter);
-app.use(express.static(path.join(__dirname, '../../client/build')));
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../../client/build')));
+}
 
 app.use(middleware.unkownEndpoint);
 app.use(middleware.errorHandler);
