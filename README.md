@@ -1,115 +1,317 @@
 # vaccination-exercise
 
-THL has ordered us to create a vaccination database which contains information about vaccine orders and vaccinations.
+Solita Dev Academy exercise. 
 
-We have received files which contains the base data for the application
+> https://vaccine-exercise-tn.herokuapp.com/
 
-The Orders are in different files named by the manufacturer of a vaccine.
+Client was made using create-react-app typescript template and styled using material-ui.
 
-Injections must be used in 30 days after the arrival of the bottle.
+Server is a node.js typescript application that uses express and mongoose + other smaller packages.
 
-[name].source "Zerpfy"|"Antiqua"|"SolarBuddhica"
+ESLint is utilized in both client and server side + Tests use Jest.
 
-The source file has one json item per line.
+MongoDB database.
 
-## Format of an order
-
-```json
-{
-  "id": "universal identifier of the order",
-  "healthCareDistrict": "HYKS|KYS|OYS|TAYS|TYKS",
-  "orderNumber": "Rising number of the order",
-  "responsiblePerson": "Name of the person who is responsible to track the delivery",
-  "injections": "number of injections available in a bottle",
-  "arrived": "ISO datetime",
-  "vaccine": "Zerpfy|Antiqua|SolarBuddhica"
-}
-```
-
-## Example order
-
-SolarBuddhica.source:
-
-```json
-{
-  "id": "2b00bc58-3faf-4d06-bb11-ef47aad8086a",
-  "orderNumber": 4194,
-  "responsiblePerson": "Arhippa Pihkala",
-  "healthCareDistrict": "TYKS",
-  "vaccine": "SolarBuddhica",
-  "injections": 6,
-  "arrived": "2021-04-07T01:10:30.696768Z"
-}
-```
-
-## Vaccination structure
-
-vaccinations.source is a json array which has information of all the vaccinations currently made
-
-The datastructure is
-
-```json
-{
-  "vaccination-id": "universal identifier of the vaccination",
-  "gender": "male|female|nonbinary",
-  "sourceBottle": "universal identifier of the bottle",
-  "injected": "Datetime"
-}
-```
-
-## Example vaccination
-
-```json
-{"vaccination-id":"e28a0fb5-3956-4ba6-827f-4dcae64e4cda",
-"sourceBottle":"2b00bc58-3faf-4d06-bb11-ef47aad8086a",
-"gender":"nonbinary",
-"vaccinationDate":"2021-04-08T11:00:20.740994Z"}
-```
-
-# The exercise
+## About the exercise
 
 Make a web application for presenting some interesting data about the vaccinations.
 
-Return the exercise as a link to your GitHub repository.
+- The Orders are in different files named by the manufacturer of a vaccine.
+- Injections must be used in 30 days after the arrival of the bottle.
+- [name].source "Zerpfy"|"Antiqua"|"SolarBuddhica"
+- The source file has one json item per line.
 
-## Technology choices
-
-Feel free to use whatever you think is best for this kind of stuff.
-
-React/Vue.js/Angular or something else for the web frontend. All is fine.
-
-Swift/Kotlin/React Native/Flutter etc. or a mobile technology of your choice.
-
-Node.js/Clojure/Go/Rust/Kotlin or something else for the backend.
-
-Some kind of database could be useful for aggregating the data. MySQL/Postgresql/Oracle/FreemanDB or maybe noSQL?
-
-## List of interesting things
+### Features from list of interesting things
 
 For given day like 2021-04-12T11:10:06
 
-* How many orders and vaccines have arrived total?
-* How many of the vaccinations have been used?
-* How many orders/vaccines per producer?
-* How many bottles have expired on the given day (remember a bottle expires 30 days after arrival)
-* How many vaccines expired before the usage -> remember to decrease used injections from the expired bottle
-* How many vaccines are left to use?
-* How many vaccines are going to expire in the next 10 days?
+* How many orders and vaccines have arrived total? ✅
+* How many of the vaccinations have been used? ✅
+* How many orders/vaccines per producer? ✅
+* How many bottles have expired on the given day (remember a bottle expires 30 days after arrival) ✅
+* How many vaccines expired before the usage -> remember to decrease used injections from the expired bottle ✅
+* How many vaccines are left to use? ✅
+* How many vaccines are going to expire in the next 10 days? ✅
 
-Perhaps there is some other data which could tell us some interesting things?
+## Running locally
 
-## Some numbers to help you
+### Database
 
-* Total number of orders 5000
-* Vaccinations done 7000
-* "2021-03-20" arrived 61 orders.
-* When counted from "2021-04-12T11:10:06.473587Z" 12590 vaccines expired before usage (injections in the expiring bottles 17423
-  and injections done from the expired bottles 4833)
+This application uses MongoDB for database.
 
-## Some tips
+I used MongoDB Atlas but if you have MongoDB installed locally you can also you that.
 
-* You don't need to do all these for a good result.
-* You can make graphs from the data but textual representation suffice also.
-* Think about the tests for your application.
-* You can test the frontend also
-* Add README.md which have instructions how to build/run your software and how to run the tests.
+Two databases have to be created:
+1. vaccines (for main application)
+2. vaccines-test (for running api tests)
+
+### .ENV
+
+Create .env file to the root of the server folder.
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ cd server
+~/<YOUR_PATH>/vaccine-exercise/server $ touch .env
+```
+
+Environment variables needed:
+```
+PORT=3001
+DATABASE_URL=mongodb+srv://<USERNAME>:<PASSWORD>@<HOST>/vaccines?retryWrites=true&w=majority
+
+TEST_DATABASE_URL=mongodb+srv://<USERNAME>:<PASSWORD>@<HOST>/vaccines-test?retryWrites=true&w=majority
+```
+
+⚠️ APPLICATION WON'T START IF DATABASE_URL IS MISSING ⚠️
+
+### Install
+
+To install all the dependencies for both client and server.
+
+This is done from root of the project folder.
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ npm run install:both
+```
+
+To install separately.
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ cd server
+~/<YOUR_PATH>/vaccine-exercise/server $ npm install
+~/<YOUR_PATH>/vaccine-exercise/server $ cd ../client
+~/<YOUR_PATH>/vaccine-exercise/client $ npm install
+```
+
+### Build
+
+To build both the client and the server side of the application.
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ npm run build:both
+```
+
+To build separately.
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ cd server
+~/<YOUR_PATH>/vaccine-exercise/server $ npm run tsc
+~/<YOUR_PATH>/vaccine-exercise/server $ cd ../client
+~/<YOUR_PATH>/vaccine-exercise/client $ npm run build
+```
+
+### Test
+
+Currently only the server side of this application has tests.
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ cd server
+~/<YOUR_PATH>/vaccine-exercise/server $ npm run tsc
+```
+
+And of course for the api tests to work, you have to add TEST_DATABASE_URL variable to your .env 
+
+### Before running
+
+Before running the application you have initialize the database with order and vaccination data.
+
+To initialize the database you can use:
+1. [mongoimport](https://docs.mongodb.com/database-tools/mongoimport/)
+2. [mongodb compass](https://docs.mongodb.com/compass/current/import-export/)
+3. db-init script
+
+Running db-init script:
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ cd server
+~/<YOUR_PATH>/vaccine-exercise/server $ npm run db-init
+```
+
+This script initializes the database with data only if it's empty. To reinitialize the database you have to manually delete all the collections in the database(orders and vaccinations).
+
+### Run
+
+Running the built version of the app:
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ cd server
+~/<YOUR_PATH>/vaccine-exercise/server $ npm start
+```
+
+Running the development version of the server:
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ cd server
+~/<YOUR_PATH>/vaccine-exercise/server $ npm run dev
+```
+
+Running in development version of the client:
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ cd client
+~/<YOUR_PATH>/vaccine-exercise/server $ npm start
+```
+
+## API
+
+Date has to be ISO 8601 format.
+- 2016-05-25
+- 2016-05-25T09:24:15
+
+More info about the parsable date formats [here](https://moment.github.io/luxon/#/parsing?id=iso-8601)
+
+### Get a specific order
+#### Request
+
+`GET /api/orders/:id`
+
+#### Response
+
+```JSON
+{
+    "id": "6da3a8cf-c923-4c77-8f80-c69c935fe1df",
+    "orderNumber": 1,
+    "responsiblePerson": "Joonatan Siloma",
+    "healthCareDistrict": "KYS",
+    "vaccine": "Antiqua",
+    "injections": 4,
+    "arrived": "2021-01-11T08:59:28.642Z"
+}
+```
+
+### Get order/vaccine data per producer
+#### Request
+
+`GET /api/orders/producer?date=:date`
+
+#### Response
+
+```JSON
+[
+    {
+        "bottles": 23,
+        "injectionsInBottles": 92,
+        "vaccine": "Antiqua"
+    },
+    {
+        "bottles": 18,
+        "injectionsInBottles": 108,
+        "vaccine": "SolarBuddhica"
+    },
+    {
+        "bottles": 20,
+        "injectionsInBottles": 100,
+        "vaccine": "Zerpfy"
+    }
+]
+```
+
+### Get orders and vaccines arrived in total
+#### Request
+
+`GET /api/orders/total?date=:date`
+
+#### Response
+
+```JSON
+{
+    "bottles": 5000,
+    "injectionsInBottles": 25015
+}
+```
+
+### Get orders and vaccines expiring in the next 10 days
+#### Request
+
+`GET /api/orders/expiring10d?date=:date`
+
+#### Response
+
+```JSON
+[
+    {
+        "expiredBottles": 179,
+        "injectionsInBottles": 716,
+        "usedInjections": 212,
+        "expiredInjections": 504,
+        "vaccine": "Antiqua"
+    },
+    {
+        "expiredBottles": 186,
+        "injectionsInBottles": 1116,
+        "usedInjections": 303,
+        "expiredInjections": 813,
+        "vaccine": "SolarBuddhica"
+    },
+    {
+        "expiredBottles": 184,
+        "injectionsInBottles": 920,
+        "usedInjections": 265,
+        "expiredInjections": 655,
+        "vaccine": "Zerpfy"
+    }
+]
+```
+
+### Get expired orders and vaccines
+#### Request
+
+`GET /api/orders/expired?date=:date`
+
+#### Response
+
+```JSON
+[
+    {
+        "expiredBottles": 1150,
+        "injectionsInBottles": 4600,
+        "usedInjections": 1283,
+        "expiredInjections": 3317,
+        "vaccine": "Antiqua"
+    },
+    {
+        "expiredBottles": 1163,
+        "injectionsInBottles": 6978,
+        "usedInjections": 1937,
+        "expiredInjections": 5041,
+        "vaccine": "SolarBuddhica"
+    },
+    {
+        "expiredBottles": 1169,
+        "injectionsInBottles": 5845,
+        "usedInjections": 1613,
+        "expiredInjections": 4232,
+        "vaccine": "Zerpfy"
+    }
+]
+```
+
+### Get a specific vaccination
+#### Request
+
+`GET /api/vaccinations/:id`
+
+#### Response
+
+```JSON
+{
+    "vaccination-id": "3d3440e2-357b-4139-857b-027d8bdcb85b",
+    "sourceBottle": "75ae9638-3ad5-4433-9e94-55cc2e36c777",
+    "gender": "female",
+    "vaccinationDate": "2021-03-07T19:23:29.670Z"
+}
+```
+
+### Get vaccinations data (how many used and left to use)
+#### Request
+
+`GET /api/vaccinations?date=:date`
+
+#### Response
+
+```JSON
+{
+    "used": 172,
+    "usable": 5353
+}
+```
