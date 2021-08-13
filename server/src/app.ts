@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import ordersRouter from './routes/ordersRouter';
 import vaccinationsRouter from './routes/vaccinationsRouter';
 import middleware from './utils/middleware';
+import path from 'path';
 
 mongoose.connect(config.DATABASE_URL, {
   useNewUrlParser: true,
@@ -23,6 +24,7 @@ app.use(cors());
 
 app.use('/api/orders', ordersRouter);
 app.use('/api/vaccinations', vaccinationsRouter);
+app.use(express.static(path.join(__dirname, '../../client/build')));
 
 app.use(middleware.unkownEndpoint);
 app.use(middleware.errorHandler);

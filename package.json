@@ -1,0 +1,24 @@
+{
+  "name": "vaccine-exercise",
+  "version": "1.0.0",
+  "description": "THL has ordered us to create a vaccination database which contains information about vaccine orders and vaccinations.",
+  "main": "index.js",
+  "scripts": {
+    "install:both": "cd server && npm install && cd ../client && npm install && cd ../",
+    "build:both": "cd server && npm run tsc && cd ../client && npm run build && cd ../",
+    "test": "cd server && npm test",
+    "start": "node server/build/index.js",
+    "heroku-postbuild": "npm run install:both && npm run build:both"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toninau/vaccine-exercise.git"
+  },
+  "keywords": ["TypeScript", "React", "Express"],
+  "author": "Toni Naumanen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toninau/vaccine-exercise/issues"
+  },
+  "homepage": "https://github.com/toninau/vaccine-exercise#readme"
+}
