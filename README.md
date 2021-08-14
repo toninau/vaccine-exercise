@@ -106,7 +106,7 @@ Currently only the server side of this application has tests.
 
 ```
 ~/<YOUR_PATH>/vaccine-exercise $ cd server
-~/<YOUR_PATH>/vaccine-exercise/server $ npm run tsc
+~/<YOUR_PATH>/vaccine-exercise/server $ npm test
 ```
 
 And of course for the api tests to work, you have to add TEST_DATABASE_URL variable to your .env 
