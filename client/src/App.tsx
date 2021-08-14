@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import DatePicker from './components/DatePicker';
 import Total from './components/Total';
 import Vaccination from './components/Vaccination';
-import Producer from './components/Producer';
+import ProducerChart from './components/ProducerChart';
 import Expired from './components/Expired';
 import { expiredRows, expiredIn10DaysRows } from './constants';
 import { CssBaseline, Container, Grid } from '@material-ui/core';
@@ -26,7 +26,7 @@ const App = () => {
             <Vaccination date={currentDate} />
           </Grid>
           <Grid item xs={12}>
-            <Producer date={currentDate} />
+            <ProducerChart date={currentDate} />
           </Grid>
           <Grid item xs={12}>
             <Expired

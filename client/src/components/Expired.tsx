@@ -32,7 +32,7 @@ const Expired = ({ date, url, headerRows, infoText }: ExpiredProps) => {
   if (!data) return <SkeletonLoader height={300} />;
   return (
     <Box component={Paper} p={2}>
-      <Toolbar>
+      <Toolbar disableGutters>
         <Typography variant="h5" color="primary">
           {infoText}
         </Typography>
