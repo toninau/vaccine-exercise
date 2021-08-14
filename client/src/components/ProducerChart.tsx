@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useFetch from '../utils/useFetch';
+import useFetch from '../hooks/useFetch';
 import ErrorBox from './ErrorBox';
 import SkeletonLoader from './SkeletonLoader';
 
