@@ -100,7 +100,7 @@ To build separately.
 
 ### Test
 
-Currently only the server side of this application has tests.
+Running server side tests.
 
 ```
 ~/<YOUR_PATH>/vaccine-exercise $ cd server
@@ -108,6 +108,13 @@ Currently only the server side of this application has tests.
 ```
 
 And of course for the API tests to work, you need to have TEST_DATABASE_URL variable in your .env 
+
+Running client side tests once.
+
+```
+~/<YOUR_PATH>/vaccine-exercise $ cd client
+~/<YOUR_PATH>/vaccine-exercise/client $ CI=true npm test
+```
 
 ### Before running
 
