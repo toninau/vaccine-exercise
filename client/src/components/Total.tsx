@@ -21,8 +21,8 @@ const Total = ({ date }: { date: string }) => {
       <Typography variant="h5" color="primary">
         Total amount of orders and vaccinations
       </Typography>
-      <p>orders: {data.bottles}</p>
-      <p>vaccinations: {data.injectionsInBottles}</p>
+      <p id="orders">orders: {data.bottles}</p>
+      <p id="vaccinations">vaccinations: {data.injectionsInBottles}</p>
     </Box>
   );
 };
