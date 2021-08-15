@@ -15,10 +15,10 @@ const testOrder = {
 };
 
 const testVaccination = {
-  'vaccination-id': '3d3440e2-357b-4139-857b-027d8bdcb85b',
-  sourceBottle: '75ae9638-3ad5-4433-9e94-55cc2e36c777',
+  'vaccination-id': '440ed0d1-5c6b-43f2-8927-fd11662c6407',
+  sourceBottle: '6da3a8cf-c923-4c77-8f80-c69c935fe1df',
   gender: 'female',
-  vaccinationDate: '2021-03-07T19:23:29.670958Z'
+  vaccinationDate: '2021-02-09T09:38:01.642790Z'
 };
 
 beforeAll(async () => {
@@ -46,7 +46,7 @@ describe('parseFiles orders', () => {
 
 describe('parseFiles vaccinations', () => {
   test('correct total amount of vaccinations', () => {
-    expect(vaccinations.length).toBe(10);
+    expect(vaccinations.length).toBe(5);
   });
   test('contains correct vaccination and its fields', () => {
     const vacciantion = vaccinations.find((v) => v['vaccination-id'] === testVaccination['vaccination-id']);
