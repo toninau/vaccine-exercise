@@ -39,7 +39,7 @@ For given day like 2021-04-12T11:10:06
 
 This application uses MongoDB for database.
 
-I used MongoDB Atlas but if you have MongoDB installed locally you can also you that.
+I used MongoDB Atlas but if you have MongoDB installed locally you can just use that instead.
 
 Two databases have to be created:
 1. vaccines (for main application)
@@ -54,7 +54,7 @@ Create .env file to the root of the server folder.
 ~/<YOUR_PATH>/vaccine-exercise/server $ touch .env
 ```
 
-Environment variables needed:
+Environment variables needed inside of the .env:
 ```
 PORT=3001
 DATABASE_URL=mongodb+srv://<USERNAME>:<PASSWORD>@<HOST>/vaccines?retryWrites=true&w=majority
@@ -66,9 +66,7 @@ TEST_DATABASE_URL=mongodb+srv://<USERNAME>:<PASSWORD>@<HOST>/vaccines-test?retry
 
 ### Install
 
-To install all the dependencies for both client and server.
-
-This is done from root of the project folder.
+To install all the dependencies for both the client and the server side.
 
 ```
 ~/<YOUR_PATH>/vaccine-exercise $ npm run install:both
@@ -109,7 +107,7 @@ Currently only the server side of this application has tests.
 ~/<YOUR_PATH>/vaccine-exercise/server $ npm test
 ```
 
-And of course for the api tests to work, you have to add TEST_DATABASE_URL variable to your .env 
+And of course for the API tests to work, you need to have TEST_DATABASE_URL variable in your .env 
 
 ### Before running
 
@@ -127,7 +125,7 @@ Running db-init script:
 ~/<YOUR_PATH>/vaccine-exercise/server $ npm run db-init
 ```
 
-This script initializes the database with data only if it's empty. To reinitialize the database you have to manually delete all the collections in the database (orders and vaccinations).
+This script initializes the database with data, but only if it's empty. To reinitialize the database you have to manually delete all the collections in the database (orders and vaccinations).
 
 ### Run
 
