@@ -40,3 +40,18 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run tsc
+
+  deploy:
+    needs: [client, server]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "vaccine-exercise-tn"
+          heroku_email: "toni.naumis@gmail.com"
+          healthcheck: "https://vaccine-exercise-tn.herokuapp.com/health"
+          checkstring: "ok"
+          delay: 5
+          rollbackonhealthcheckfailed: true

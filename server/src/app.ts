@@ -22,6 +22,10 @@ const app = express();
 
 app.use(cors());
 
+app.get('/health', (_req, res) => {
+  res.send('ok');
+});
+
 app.use('/api/orders', ordersRouter);
 app.use('/api/vaccinations', vaccinationsRouter);
 
