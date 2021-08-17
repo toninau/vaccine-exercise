@@ -10,7 +10,7 @@ Server is a node.js typescript application that uses express and mongoose + othe
 
 ESLint is utilized in both client and server side + Tests use Jest.
 
-MongoDB database.
+MongoDB v4.4.8 + Node.js v14.17.4
 
 ## About the exercise
 
